@@ -1,0 +1,12 @@
+{%extends "base/base.html" %} 
+
+{% block title %} Home Page {% endblock %} 
+
+{% block content %} 
+    <div class="container p-4 d-flex justify-content-center">
+        <form class="form-inline my-2 my-lg-0"  method="POST">
+            <input class="form-control mr-sm-2"  name="link" type="search" placeholder="Youtube Video Link" aria-label="Youtube Video Link">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Start Analyzer</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+
+{% block title %} Home Page {% endblock %}
+
+{% block content %} 
+
+<div class="d-flex justify-content-around p-4 m-4">
+
+    <div class="card" style="width: 24rem;">
+        <img src="{{ url_for('static', filename='assets/youtube-icon.png') }}" alt="youtube">
+        <div class="card-body">
+          <h5 class="card-title">Youtube Comment Analyzer</h5>
+          <p class="card-text">Perform sentiment analysis on youtube video comments</p>
+          <a href="/youtube" class="btn btn-primary">Start</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 24rem;">
+        <img src="{{ url_for('static', filename='assets/amazon-icon.png') }}" alt="amazon">
+        <div class="card-body">
+          <h5 class="card-title">Amazon Product Review Analyzer</h5>
+          <p class="card-text">Perform Sentiment analysis on amazon product review</p>
+          <a href="/amazon" class="btn btn-primary">Start</a>
+        </div>
+      </div>
+
+</div>
+
+
+
+{% endblock %}

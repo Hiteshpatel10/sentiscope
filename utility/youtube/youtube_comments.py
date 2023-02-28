@@ -1,5 +1,5 @@
 import pandas as pd
-from googleapiclient.discovery import build
+
 
 def extract_video_id(youtube_url):
     video_id = youtube_url.split("v=")[-1].split("&")[0]
@@ -27,6 +27,6 @@ def get_comments(service, video_ID):
             break
         
     output_df = pd.DataFrame.from_dict(comments)
-    output_df.to_csv(f'../../data/yt-train.csv', index=False, header=['comment', 'date', 'author', 'like_count', 'reply_count'])
+    output_df.to_csv(f'./data/yt-train.csv', index=False, header=['comment', 'date', 'author', 'like_count', 'reply_count'])
 
     

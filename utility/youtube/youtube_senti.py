@@ -33,11 +33,11 @@ def predict_sentiment(model, vectorizer, text):
 
 def senti():
 
-    df = pd.read_csv('../../data/yt-train.csv', parse_dates=['date'])
+    df = pd.read_csv('./data/yt-train.csv', parse_dates=['date'])
     df.dropna(subset=['comment'], inplace=True)
-    filename = "../../model/youtube/yt-logistic.joblib"
+    filename = "./model/youtube/yt-logistic.joblib"
     model = joblib.load(filename)
-    vectorizer = joblib.load("../../model/youtube/yt-vector-logistic.joblib")
+    vectorizer = joblib.load("./model/youtube/yt-vector-logistic.joblib")
 
 
     df['sentiment'] = df['comment'].apply(lambda x: predict_sentiment(model, vectorizer, x))
@@ -52,7 +52,9 @@ def senti():
     sentiment_df = pd.DataFrame({'Sentiment': sentiment_counts.index, 'Count': sentiment_counts.values})
     fig = px.histogram(sentiment_df, x='Sentiment', y='Count', color='Sentiment', color_discrete_sequence=['green', 'red', 'gray'])
     fig.update_layout(title_text='Sentiment Analysis', xaxis_title='Sentiment', yaxis_title='Count')
-    pio.write_image(fig, 'sentiment_histogram.png')
+    # fig.write_image('./static/youtube/sentiment_histogram.png')
+    fig.write_html('./static/youtube/sentiment_histogram.html')
+
 
     # Create stopword list:
     stopwords = set(STOPWORDS)
@@ -63,21 +65,22 @@ def senti():
         wordcloud2 = WordCloud(stopwords=stopwords).generate(pos)
         plt.imshow(wordcloud2, interpolation='bilinear')
         plt.axis("off")
-        plt.savefig('wordcloud_positive.png')
+        plt.savefig('./static/youtube/wordcloud_positive.png', transparent=True)
 
     if len(negative) > 0:
         neg = " ".join(str(review) for review in negative.comment)
         wordcloud3 = WordCloud(stopwords=stopwords).generate(neg)
         plt.imshow(wordcloud3, interpolation='bilinear')
         plt.axis("off")
-        plt.savefig('wordcloud_negative.png')
+        plt.savefig('./static/youtube/wordcloud_negative.png', transparent=True)
 
     if len(neutral) > 0:
         neu = " ".join(str(review) for review in neutral.comment)
         wordcloud4 = WordCloud(stopwords=stopwords).generate(neu)
         plt.imshow(wordcloud4, interpolation='bilinear')
         plt.axis("off")
-        plt.savefig('wordcloud_neutral.png')
+        plt.savefig('./static/youtube/wordcloud_neutral.png', transparent=True)
+
 
     # Group the reviews by date and count the number of reviews on each day for each sentiment
     pos_reviews_per_day = positive.groupby(positive['date'].dt.date)['comment'].count()
@@ -90,24 +93,19 @@ def senti():
 
 
     # Create the time series plot for each sentiment
-    fig = plt.figure(figsize=(12,6))
-    plt.plot(pos_reviews_per_day, label='Positive')
-    plt.plot(neg_reviews_per_day, label='Negative')
-    plt.plot(neu_reviews_per_day, label='Neutral')
-    plt.xlabel('date', fontsize=14)
-    plt.ylabel('Number of comments', fontsize=14)
-    plt.title('Amazon Reviews Time Series Plot', fontsize=16)
-    plt.xticks(fontsize=12, rotation=45)
-    plt.legend(fontsize=12)
-    plt.savefig('time_series_sentiment.png')
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=pos_reviews_per_day.index, y=pos_reviews_per_day.values, name='Positive'))
+    fig.add_trace(go.Scatter(x=neg_reviews_per_day.index, y=neg_reviews_per_day.values, name='Negative'))
+    fig.add_trace(go.Scatter(x=neu_reviews_per_day.index, y=neu_reviews_per_day.values, name='Neutral'))
+    fig.update_layout(title_text='Amazon Reviews Time Series Plot (Sentiment)', xaxis_title='Date', yaxis_title='Number of Comments')
+    # fig.write_image('./static/youtube/time_series_sentiment.png')
+    fig.write_html('./static/youtube/time_series_sentiment.html')
 
     # Create the time series plot for reviews
-    fig = plt.figure(figsize=(12,6))
-    plt.plot(reviews_per_day)
-    plt.xlabel('date', fontsize=14)
-    plt.ylabel('Number of Reviews', fontsize=14)
-    plt.title('Amazon Reviews Time Series Plot', fontsize=16)
-    plt.xticks(fontsize=12, rotation=45)
-    plt.savefig('time_series.png')
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=reviews_per_day.index, y=reviews_per_day.values, name='Reviews'))
+    fig.update_layout(title_text='Amazon Reviews Time Series Plot', xaxis_title='Date', yaxis_title='Number of Reviews')
+    # fig.write_image('./static/youtube/time_series.png')
+    fig.write_html('./static/youtube/time_series.html')
 
 

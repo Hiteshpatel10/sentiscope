@@ -33,7 +33,7 @@ def predict_sentiment(model, vectorizer, text):
 
 def senti():
 
-    df = pd.read_csv('../../data/amazon-train.csv', parse_dates=['date'])
+    df = pd.read_csv('../../data/am1-train.csv', parse_dates=['date'])
     df.dropna(subset=['content'], inplace=True)
     filename = "../../model/amazon/amazon-logistic.joblib"
     model = joblib.load(filename)

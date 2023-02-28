@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from googleapiclient.discovery import build
-import pandas as pd
 from flask_paginate import Pagination, get_page_args
+from youtube_main import youtubeMain
+from amazon_main import amazonMain
+from utility.youtube.youtube_comments import extract_video_id
+
 
 app = Flask(__name__,template_folder="templates")
 app.config['SECRECT_KEY'] = "SentiScope"
@@ -33,17 +35,35 @@ def home():
 
 @app.route("/youtube", methods=["POST","GET"])
 def youtube():
-
   if request.method == "POST":
-    videoUrl = "this"
-    return redirect(url_for("youtubeResult", videoUrl=videoUrl))
+    link = request.form['link']
+    videoId = extract_video_id(link)
+    youtubeMain(videoId)
+    return redirect(url_for("youtubeSentiResult", videoId=videoId))
+  else:
+    return render_template("youtube.html")
+  
+@app.route("/youtubeSentiResult")
+def youtubeSentiResult():
+  return render_template("youtube_result.html")
+
+
+  
+@app.route("/amazon", methods=["POST","GET"])
+def amazon():
+  if request.method == "POST":
+    link = request.form['link']
+    videoId = extract_video_id(link)
+    amazonMain()
+    return redirect(url_for("amazonSentiResult", videoId=videoId))
   else:
     return render_template("youtube.html")
 
+@app.route("/amazonSentiResult")
+def amazonSentiResult():
+  return render_template("amazon_result.html")
 
-@app.route("/<videoUrl>")
-def youtubeResult(videoUrl):
-  return render_template("youtubeResult.html", videoUrl=videoUrl)
+
 
 
 if __name__ == "__main__":

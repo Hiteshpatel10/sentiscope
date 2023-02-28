@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-df = pd.read_csv('../../data/yt-train.csv')
+df = pd.read_csv('data/yt-train.csv')
 
 sentiments = SentimentIntensityAnalyzer()
 df["positive"] = df['Comment'].apply(lambda review: sentiments.polarity_scores(str(review))["pos"])

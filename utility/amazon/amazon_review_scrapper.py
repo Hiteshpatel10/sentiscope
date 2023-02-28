@@ -1,14 +1,11 @@
 from selectorlib import Extractor
 import requests 
-import json 
-from time import sleep
 import csv
 from dateutil import parser as dateparser
-import os
-from get_proxy import getRandomProxy
+from utility.amazon.get_proxy import getRandomProxy
 
 # Create an Extractor by reading from the YAML file
-e = Extractor.from_yaml_file('selectors.yml')
+e = Extractor.from_yaml_file('utility/amazon/selectors.yml')
 
 def scrape(url):    
     headers = {
@@ -58,8 +55,4 @@ def scrapped(url):
             r['date'] = dateparser.parse(date_posted).strftime('%d %b %Y')
             reviewList.append(r)
     
-    with open("ans.csv", "a") as f:
-        writer = csv.DictWriter(f, fieldnames=["title","content","date","variant","images","verified","author","rating","product","url"], quoting=csv.QUOTE_ALL)
-        writer.writeheader()
-        for row in reviewList:
-            writer.writerow(row)
+    return reviewList

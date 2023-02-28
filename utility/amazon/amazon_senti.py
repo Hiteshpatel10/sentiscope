@@ -4,20 +4,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 color = sns.color_palette()
-import plotly.offline as py
-import plotly.io as pio
 import plotly.graph_objs as go
-import plotly.tools as tls
 import plotly.express as px
 
 #nltk
-import nltk
 from nltk.corpus import stopwords
 STOPWORDS = set(stopwords.words('english'))
 from wordcloud import WordCloud
 
-# none
-import numpy as np
+# model save
 import joblib
 
 def predict_sentiment(model, vectorizer, text):
@@ -47,17 +42,30 @@ def senti():
     negative = df[df['sentiment'] == -1]
     neutral = df[df['sentiment'] == 0]
 
-    # Histogram 
-    sentiment_counts = df['sentiment'].value_counts()
-    sentiment_df = pd.DataFrame({'Sentiment': sentiment_counts.index, 'Count': sentiment_counts.values})
-    fig = px.histogram(sentiment_df, x='Sentiment', y='Count', color='Sentiment', color_discrete_sequence=['green', 'gray', 'red'])
-    fig.update_layout(title_text='Sentiment Analysis', xaxis_title='Sentiment', yaxis_title='Count')
+    # Review no histogram
+    fig = px.histogram(df, x="rating")
+    fig.update_traces(marker_color="turquoise",marker_line_color='rgb(8,48,107)',marker_line_width=1.5)
+    fig.update_layout(title_text='Product Score')
+    # pio.write_image(fig, 'product_sce.png')
+    fig.write_html('./static/amazon/product_score_histogram.html')
+
+
+    #sentimetnt histogram
+    # Counting the number of comments in each category
+    counts = {'Negative': len(negative), 'Neutral': len(neutral), 'Positive': len(positive),}
+    # Creating a bar chart
+    fig = px.bar(x=list(counts.keys()), y=list(counts.values()), color=list(counts.keys()))
+    # Customizing the chart
+    fig.update_traces(marker_line_width=1.5)
+    fig.update_layout(title_text='Sentiment Analysis Results', xaxis_title='Sentiment Category', yaxis_title='Comment Count')
+    # Saving the chart as an HTML file
     fig.write_html('./static/amazon/sentiment_histogram.html')
+
 
 
     # Create stopword list:
     stopwords = set(STOPWORDS)
-    stopwords.update(["br", "href", "good", "great"])
+    stopwords.update(["br", "href", "good", "great", "phone", "mobile"])
 
     if len(positive) > 0:
         pos = " ".join(str(review) for review in positive.content)
@@ -106,5 +114,4 @@ def senti():
     fig.update_layout(title_text='Amazon Reviews Time Series Plot', xaxis_title='Date', yaxis_title='Number of Reviews')
     # fig.write_image('./static/amazon/time_series.png')
     fig.write_html('./static/amazon/time_series.html')
-
 

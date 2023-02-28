@@ -1,11 +1,12 @@
 import pandas as pd
+import os
 
 
 def extract_video_id(youtube_url):
     video_id = youtube_url.split("v=")[-1].split("&")[0]
     return video_id
 
-def get_comments(service, video_ID):
+def get_comments(service, video_ID, uuid):
     comments = []
     response = service.commentThreads().list(part="snippet", videoId=video_ID, textFormat="plainText").execute()
     page = 0
@@ -26,7 +27,10 @@ def get_comments(service, video_ID):
         else:
             break
         
+    data_dir = 'data'
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+ 
+    filename = f"{uuid}.csv"
     output_df = pd.DataFrame.from_dict(comments)
-    output_df.to_csv(f'./data/yt-train.csv', index=False, header=['comment', 'date', 'author', 'like_count', 'reply_count'])
-
-    
+    output_df.to_csv(f'./data/{filename}', index=False, header=['comment', 'date', 'author', 'like_count', 'reply_count'])

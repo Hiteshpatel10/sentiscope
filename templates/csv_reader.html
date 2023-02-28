@@ -2,10 +2,12 @@
 
 {% block content %}
 
-{{ data_var|safe }}
+<div class="m-4 text-align-center">
+    {{ data_var|safe }}
+</div>
 
 {% if pagination %}
-    <div class="pagination">
+    <div class="pagination m-4 ">
         {{ pagination.links }}
     </div>
 {% endif %}

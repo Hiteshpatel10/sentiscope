@@ -3,49 +3,48 @@ from flask_paginate import Pagination, get_page_args
 from youtube_main import youtubeMain
 from amazon_main import amazonMain
 from utility.youtube.youtube_comments import extract_video_id
+import pandas as pd
+import uuid
 
 
 app = Flask(__name__,template_folder="templates")
 app.config['SECRECT_KEY'] = "SentiScope"
+APP_UUID = uuid.uuid4()
+
 
 @app.route("/")
 def home():
   return render_template("home.html")
 
-# @app.route("/youtube", methods=["POST","GET"])
-# def hitesh():
-#     df = pd.read_csv('data/new.csv')
-#     page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
-#     if per_page is None:
-#       per_page = 20
-#     if request.method == "POST":
-#       videoUrl = request.form['link']
-#       videoId = extract_video_id(videoUrl)
-#       yt_service = build("youtube", "v3", developerKey="AIzaSyAOvxr2XvdsjlqFnc-E0EgKbzlEfXb88_4")
-#       comments_dict = get_comments(yt_service, videoId)
-#       save_to_csv(comments_dict, 'new')
-#       df = pd.read_csv('data/new.csv')
-#       data = df[offset: offset + per_page]
-#       pagination = Pagination(page=page, per_page=per_page, total=len(df), css_framework='bootstrap4')
-#       return render_template('csv_reader.html', data_var=data.to_html(), pagination=pagination)
-#     else: 
-#       data = df[offset: offset + per_page]
-#       pagination = Pagination(page=page, per_page=per_page, total=len(df), css_framework='bootstrap4')
-#       return render_template('csv_reader.html', data_var=data.to_html(), pagination=pagination)
+import os
+
+@app.route("/csv/<path:file_name>", methods=["GET"])
+def show_csv(file_name):
+    # Read the CSV file
+    file_path = os.path.join( 'data', file_name)
+    df = pd.read_csv(file_path)
+
+    # Paginate the data
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    data = df[offset: offset + per_page]
+    pagination = Pagination(page=page, per_page=per_page, total=len(df), css_framework='bootstrap4')
+
+    # Render the HTML table
+    return render_template('csv_reader.html', data_var=data.to_html(index=False), pagination=pagination)
 
 @app.route("/youtube", methods=["POST","GET"])
 def youtube():
   if request.method == "POST":
     link = request.form['link']
     videoId = extract_video_id(link)
-    youtubeMain(videoId)
+    youtubeMain(videoId, APP_UUID)
     return redirect(url_for("youtubeSentiResult", videoId=videoId))
   else:
     return render_template("youtube.html")
   
 @app.route("/youtubeSentiResult")
 def youtubeSentiResult():
-  return render_template("youtube_result.html")
+  return render_template("youtube_result.html", uuid = str(APP_UUID))
 
 
   
@@ -62,8 +61,6 @@ def amazon():
 @app.route("/amazonSentiResult")
 def amazonSentiResult():
   return render_template("amazon_result.html")
-
-
 
 
 if __name__ == "__main__":

@@ -1,33 +1,66 @@
 {% extends "base/base.html" %}
 
-{% block title %}Test{% endblock %}
+{% block title %}sentiment result{% endblock %}
 
 {% block content %}
     <div class="container-fluid mt-4">
         <h1 class="text-center mb-4">Sentiment Analysis</h1>
-    
+
+        <div class="row m-2">
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Positive Word Cloud</h5>
+                        <div class="text-center">
+                            <a href="{{ url_for('show_csv', file_name=uuid+'.csv') }}" class="btn btn-success">View CSV file</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Positive Word Cloud</h5>
+                        <div class="text-center">
+                            <a href="{{ url_for('show_csv', file_name=uuid+'.csv') }}" class="btn btn-success">View CSV file</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Positive Word Cloud</h5>
+                        <div class="text-center">
+                            <a href="{{ url_for('show_csv', file_name=uuid+'.csv') }}" class="btn btn-success">View CSV file</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="card m-4">
             <div class="card-body">
                 <h5 class="card-title ">Time Series Plot (Sentiment)</h5>
-                <iframe src="{{ url_for('static', filename='youtube/sentiment_histogram.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='youtube/sentiment_histogram_' + uuid + '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 
         <div class="row m-2">
             <div class="col-md-4">
                 <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Positive Word Cloud</h5>
-                    <img src="{{ url_for('static', filename='youtube/wordcloud_positive.png') }}" class="img-fluid" alt="Positive Word Cloud">
-                </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Positive Word Cloud</h5>
+                        <img src="{{ url_for('static', filename='youtube/wordcloud_positive_' + uuid + '.png') }}" class="img-fluid" alt="Positive Word Cloud">
+                    </div>
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Negative Word Cloud</h5>
-                    <img src="{{ url_for('static', filename='youtube/wordcloud_negative.png') }}" class="img-fluid" alt="Negative Word Cloud">
+                    <img src="{{ url_for('static', filename='youtube/wordcloud_negative_' + uuid + '.png') }}" class="img-fluid" alt="Negative Word Cloud">
                 </div>
                 </div>
             </div>
@@ -36,26 +69,24 @@
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Neutral Word Cloud</h5>
-                    <img src="{{ url_for('static', filename='youtube/wordcloud_neutral.png') }}" class="img-fluid" alt="Neutral Word Cloud">
+                    <img src="{{ url_for('static', filename='youtube/wordcloud_neutral_' + uuid + '.png') }}" class="img-fluid" alt="Neutral Word Cloud">
                 </div>
                 </div>
             </div>
-            </div>
-            
-        
-        
 
+        </div>
+            
         <div class="card m-4">
             <div class="card-body">
                 <h5 class="card-title ">Time Series Plot (Sentiment)</h5>
-                <iframe src="{{ url_for('static', filename='youtube/time_series_sentiment.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='youtube/time_series_sentiment_' + uuid + '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 
         <div class="card m-4">
             <div class="card-body">
                 <h5 class="card-title">Time Series Plot (Reviews)</h5>
-                <iframe src="{{ url_for('static', filename='youtube/time_series.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='youtube/time_series_' + uuid + '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 

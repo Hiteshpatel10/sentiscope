@@ -5,6 +5,14 @@
 {% block content %}
     <div class="container-fluid mt-4">
         <h1 class="text-center mb-4">Sentiment Analysis</h1>
+
+        <div class="card m-4">
+            <div class="card-body">
+                <h5 class="card-title ">Time Series Plot (Sentiment)</h5>
+                <iframe src="{{ url_for('static', filename='amazon/product_score_histogram.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+            </div>
+        </div>
+
     
         <div class="card m-4">
             <div class="card-body">

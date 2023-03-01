@@ -41,7 +41,7 @@ def senti(uuid_str):
     stopwords.update(["br", "href", "good", "great"])
 
     if len(positive) > 0:
-        pos = " ".join(str(review) for review in positive.comment)
+        pos = " ".join(str(review) for review in positive.comment) 
         wordcloud2 = WordCloud(stopwords=stopwords).generate(pos)
         plt.imshow(wordcloud2, interpolation='bilinear')
         plt.axis("off")

@@ -52,15 +52,15 @@ def youtubeSentiResult():
 def amazon():
   if request.method == "POST":
     link = request.form['link']
-    videoId = extract_video_id(link)
-    amazonMain()
-    return redirect(url_for("amazonSentiResult", videoId=videoId))
+    productUrl = extract_video_id(link)
+    amazonMain(productUrl,APP_UUID)
+    return redirect(url_for("amazonSentiResult"))
   else:
     return render_template("youtube.html")
 
 @app.route("/amazonSentiResult")
 def amazonSentiResult():
-  return render_template("amazon_result.html")
+  return render_template("amazon_result.html", uuid = str(APP_UUID))
 
 
 if __name__ == "__main__":

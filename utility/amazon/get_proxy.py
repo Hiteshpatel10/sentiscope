@@ -1,28 +1,36 @@
+import random
 import requests
 
 def getRandomProxy():
-    proxy={
-        "http": "http://raespmdu-rotate:z64qjwq7ta18@p.webshare.io:80/",
-        "https": "http://raespmdu-rotate:z64qjwq7ta18@p.webshare.io:80/"
-    }
+    proxies = [
+        "http://raespmdu-rotate:z64qjwq7ta18@p.webshare.io:80/",
+        "https://raespmdu-rotate:z64qjwq7ta18@p.webshare.io:80/",
+        "http://hqpvfzee-rotate:z9fh8f0dxkzi@p.webshare.io:80/",
+        "https://hqpvfzee-rotate:z9fh8f0dxkzi@p.webshare.io:80/"
+    ]
 
-    response = requests.get(
-        "https://ipv4.webshare.io/", proxies= proxy
-    )
+    proxy = random.choice(proxies)
 
-    res = {
-    "status": "OK",
-    "reason": "",
-    "data": {
-        "carrier": "",
-        "city": "Udaipur",
-        "country_code": "GR",
-        "country_name": "Greece",
-        "ip": response.text,
-        "isp": "FORTHnet",
-        "region": "Thesaly"
-        
+    try:
+        response = requests.get("https://ipv4.webshare.io/", proxies={"http": proxy, "https": proxy})
+        response.raise_for_status()
+        ip_address = response.text.strip()
+        return {
+            "status": "OK",
+            "reason": "",
+            "data": {
+                "carrier": "",
+                "city": "London",
+                "country_code": "UR",
+                "country_name": "America",
+                "ip": ip_address,
+                "isp": "FORTHnet",
+                "region": "Thesaly"
+            }
         }
-    }
-
-    return res
+    except requests.RequestException as e:
+        return {
+            "status": "ERROR",
+            "reason": str(e),
+            "data": {}
+        }

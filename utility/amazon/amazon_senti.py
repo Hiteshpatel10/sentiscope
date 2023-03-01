@@ -26,9 +26,9 @@ def predict_sentiment(model, vectorizer, text):
     return sentiment
 
 
-def senti():
+def senti(uuid):
 
-    df = pd.read_csv('./data/am1-train.csv', parse_dates=['date'])
+    df = pd.read_csv(f'./data/{uuid}.csv', parse_dates=['date'])
     df.dropna(subset=['content'], inplace=True)
     filename = "./model/amazon/amazon-logistic.joblib"
     model = joblib.load(filename)
@@ -47,7 +47,7 @@ def senti():
     fig.update_traces(marker_color="turquoise",marker_line_color='rgb(8,48,107)',marker_line_width=1.5)
     fig.update_layout(title_text='Product Score')
     # pio.write_image(fig, 'product_sce.png')
-    fig.write_html('./static/amazon/product_score_histogram.html')
+    fig.write_html(f'./static/amazon/product_score_histogram_{uuid}.html')
 
 
     #sentimetnt histogram
@@ -59,7 +59,7 @@ def senti():
     fig.update_traces(marker_line_width=1.5)
     fig.update_layout(title_text='Sentiment Analysis Results', xaxis_title='Sentiment Category', yaxis_title='Comment Count')
     # Saving the chart as an HTML file
-    fig.write_html('./static/amazon/sentiment_histogram.html')
+    fig.write_html(f'./static/amazon/sentiment_histogram_{uuid}.html')
 
 
 
@@ -72,21 +72,21 @@ def senti():
         wordcloud2 = WordCloud(stopwords=stopwords).generate(pos)
         plt.imshow(wordcloud2, interpolation='bilinear')
         plt.axis("off")
-        plt.savefig('./static/amazon/wordcloud_positive.png', transparent=True)
+        plt.savefig(f'./static/amazon/wordcloud_positive_{uuid}.png', transparent=True)
 
     if len(negative) > 0:
         neg = " ".join(str(review) for review in negative.content)
         wordcloud3 = WordCloud(stopwords=stopwords).generate(neg)
         plt.imshow(wordcloud3, interpolation='bilinear')
         plt.axis("off")
-        plt.savefig('./static/amazon/wordcloud_negative.png', transparent=True)
+        plt.savefig(f'./static/amazon/wordcloud_negative_{uuid}.png', transparent=True)
 
     if len(neutral) > 0:
         neu = " ".join(str(review) for review in neutral.content)
         wordcloud4 = WordCloud(stopwords=stopwords).generate(neu)
         plt.imshow(wordcloud4, interpolation='bilinear')
         plt.axis("off")
-        plt.savefig('./static/amazon/wordcloud_neutral.png', transparent=True)
+        plt.savefig(f'./static/amazon/wordcloud_neutral_{uuid}.png', transparent=True)
 
 
     # Group the reviews by date and count the number of reviews on each day for each sentiment
@@ -106,12 +106,12 @@ def senti():
     fig.add_trace(go.Scatter(x=neu_reviews_per_day.index, y=neu_reviews_per_day.values, name='Neutral'))
     fig.update_layout(title_text='Amazon Reviews Time Series Plot (Sentiment)', xaxis_title='Date', yaxis_title='Number of contents')
     # fig.write_image('./static/amazon/time_series_sentiment.png')
-    fig.write_html('./static/amazon/time_series_sentiment.html')
+    fig.write_html(f'./static/amazon/time_series_sentiment_{uuid}.html')
 
     # Create the time series plot for reviews
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=reviews_per_day.index, y=reviews_per_day.values, name='Reviews'))
     fig.update_layout(title_text='Amazon Reviews Time Series Plot', xaxis_title='Date', yaxis_title='Number of Reviews')
     # fig.write_image('./static/amazon/time_series.png')
-    fig.write_html('./static/amazon/time_series.html')
+    fig.write_html(f'./static/amazon/time_series_{uuid}.html')
 

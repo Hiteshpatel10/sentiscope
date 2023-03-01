@@ -1,6 +1,6 @@
 from selectorlib import Extractor
 import requests 
-import csv
+import random
 from dateutil import parser as dateparser
 from utility.amazon.get_proxy import getRandomProxy
 
@@ -8,13 +8,22 @@ from utility.amazon.get_proxy import getRandomProxy
 e = Extractor.from_yaml_file('utility/amazon/selectors.yml')
 
 def scrape(url):    
+
+    user_agent_list = [
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+    ]
+    user_agent = random.choice(user_agent_list)
     headers = {
         'authority': 'www.amazon.com',
         'pragma': 'no-cache',
         'cache-control': 'no-cache',
         'dnt': '1',
         'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',
+        'user-agent': user_agent,
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'sec-fetch-site': 'none',
         'sec-fetch-mode': 'navigate',

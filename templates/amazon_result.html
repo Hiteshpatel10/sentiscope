@@ -9,15 +9,15 @@
         <div class="card m-4">
             <div class="card-body">
                 <h5 class="card-title ">Time Series Plot (Sentiment)</h5>
-                <iframe src="{{ url_for('static', filename='amazon/product_score_histogram.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='amazon/product_score_histogram_' + uuid+ '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 
-    
+     
         <div class="card m-4">
-            <div class="card-body">
+            <div class="card-body"> 
                 <h5 class="card-title ">Time Series Plot (Sentiment)</h5>
-                <iframe src="{{ url_for('static', filename='amazon/sentiment_histogram.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='amazon/sentiment_histogram_' + uuid + '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Positive Word Cloud</h5>
-                    <img src="{{ url_for('static', filename='amazon/wordcloud_positive.png') }}" class="img-fluid" alt="Positive Word Cloud">
+                    <img src="{{ url_for('static', filename='amazon/wordcloud_positive_' + uuid + '.png' ) }}" class="img-fluid" alt="Positive Word Cloud">
                 </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Negative Word Cloud</h5>
-                    <img src="{{ url_for('static', filename='amazon/wordcloud_negative.png') }}" class="img-fluid" alt="Negative Word Cloud">
+                    <img src="{{ url_for('static', filename='amazon/wordcloud_negative_' + uuid + '.png') }}" class="img-fluid" alt="Negative Word Cloud">
                 </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Neutral Word Cloud</h5>
-                    <img src="{{ url_for('static', filename='amazon/wordcloud_neutral.png') }}" class="img-fluid" alt="Neutral Word Cloud">
+                    <img src="{{ url_for('static', filename='amazon/wordcloud_neutral_' + uuid + '.png') }}" class="img-fluid" alt="Neutral Word Cloud">
                 </div>
                 </div>
             </div>
@@ -56,14 +56,14 @@
         <div class="card m-4">
             <div class="card-body">
                 <h5 class="card-title ">Time Series Plot (Sentiment)</h5>
-                <iframe src="{{ url_for('static', filename='amazon/time_series_sentiment.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='amazon/time_series_sentiment_' + uuid + '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 
         <div class="card m-4">
             <div class="card-body">
                 <h5 class="card-title">Time Series Plot (Reviews)</h5>
-                <iframe src="{{ url_for('static', filename='amazon/time_series.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
+                <iframe src="{{ url_for('static', filename='amazon/time_series_' + uuid + '.html') }}" class="embed-responsive-item" height="1000" width="100%"></iframe>
             </div>
         </div>
 

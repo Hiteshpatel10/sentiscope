@@ -37,6 +37,3 @@ def amazonMain(productUrl, uuid):
     output_df.to_csv(f'data/{uuid}.csv', index=False, header=["title","content","date","variant","images","verified","author","rating","product","url"])
     senti(uuid)
 
-if __name__ == "__main__":
-    amazonMain("https://www.amazon.in/Redmi-MediaTek-26-95cm-Resolution-Expandable/product-reviews/B0BLHKWWKS/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews", "12345")
-    
